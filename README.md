@@ -137,5 +137,3 @@ terraform workspace list
 ```
 terraform workspace select prod-env
 ```
-
-**Note:** This is a basic overview of the commands. Refer to the official Terraform documentation for detailed explanations and best practices: [https://www.terraform.io/](https://www.terraform.io/)
