@@ -19,4 +19,16 @@ resource "aws_s3_bucket" "my_terraform_s3_bucket" {
     bucket = "my-terraform-bucket-001-20231031120000"  # Specify the name for the S3 bucket
 }
 
+# Enable versioning for the S3 bucket
+resource "aws_s3_bucket_versioning" "versioning_example" {
+  bucket = aws_s3_bucket.my_terraform_s3_bucket.id   # Reference the ID of the created S3 bucket
+  versioning_configuration {
+    status = "Enabled"     # Enable versioning for the S3 bucket
+  }
+}
 
+# Define an AWS IAM user resource named "my_iam_user"
+resource "aws_iam_user" "my_iam_user" {
+  # Set the username for the IAM user to "terraform_user"
+  name = "terraform_user"
+}
