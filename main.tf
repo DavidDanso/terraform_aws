@@ -27,8 +27,20 @@ resource "aws_s3_bucket_versioning" "versioning_example" {
   }
 }
 
-# Define an AWS IAM user resource named "my_iam_user"
+# Define a list of user names
+locals {
+  user_names = [
+    "silver_fox92",
+    "luna_starlight",
+    "thunder_bolt77",
+    "mystic_dreamer",
+    "phoenix_rising",
+  ]
+}
+
+# Create IAM users in AWS for each user name in the list | creating multiple IAM users
 resource "aws_iam_user" "my_iam_user" {
-  # Set the username for the IAM user to "terraform_user"
-  name = "terraform_user"
+  for_each = { for name in local.user_names : name => name } # Specify the user names as keys and values
+  
+  name = each.value  # Use each user name as the name for the IAM user
 }
