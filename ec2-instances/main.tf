@@ -48,6 +48,9 @@ resource "aws_security_group" "http_server_sg" {
   }
 }
 
+variable "aws_key_pair" {
+  default = "~/aws/aws_keys/default-key.pem"
+}
 # Define the EC2 instance resource
 resource "aws_instance" "web_server" {
   ami                    = "ami-0a70b9d193ae8a799"                # Replace with the desired AMI ID
@@ -56,4 +59,21 @@ resource "aws_instance" "web_server" {
   vpc_security_group_ids = [aws_security_group.http_server_sg.id] # Replace with your security group ID
   availability_zone      = "us-west-2a"                           # Replace with the desired availability zone
   subnet_id              = "subnet-05243d3cdff2301be"             # Replace with the desired subnet ID
+
+  connection {
+    type        = "ssh"
+    user        = "ec2-user"
+    host        = self.public_ip
+    private_key = file(var.aws_key_pair)
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo yum update -y",
+      "sudo yum install -y httpd",
+      "sudo systemctl start httpd",
+      "sudo systemctl enable httpd",
+      "echo '<h1>Hello, World! Terraform Configuration! - Virtual Server is at ${self.private_dns}</h1>' | sudo tee /var/www/html/index.html",
+    ]
+  }
 }
