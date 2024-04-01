@@ -50,8 +50,10 @@ resource "aws_security_group" "http_server_sg" {
 
 # Define the EC2 instance resource
 resource "aws_instance" "web_server" {
-  ami                    = "ami-0a70b9d193ae8a799"   # Replace with the desired AMI ID
-  instance_type          = "t2.micro"                # Replace with the desired instance type
-  key_name = "key" # Replace with the desired key name
+  ami                    = "ami-0a70b9d193ae8a799"                # Replace with the desired AMI ID
+  instance_type          = "t2.micro"                             # Replace with the desired instance type
+  key_name               = "default-key"                          # Replace with the desired key name
   vpc_security_group_ids = [aws_security_group.http_server_sg.id] # Replace with your security group ID
+  availability_zone      = "us-west-2a"                           # Replace with the desired availability zone
+  subnet_id              = "subnet-05243d3cdff2301be"             # Replace with the desired subnet ID
 }
