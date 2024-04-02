@@ -29,8 +29,7 @@ data "aws_subnets" "default_subnets" {
 
 # Resource for the security group
 resource "aws_security_group" "http_server_sg" {
-  name = "http_server_sg"
-  # vpc_id = "vpc-0b34c76d8b6819e15"
+  name   = "http_server_sg"
   vpc_id = aws_default_vpc.default.id
 
   # Restrict inbound HTTP access (port 80) to a specific IP address or security group (replace with your desired allowed source)
@@ -65,15 +64,15 @@ resource "aws_security_group" "http_server_sg" {
 variable "aws_key_pair" {
   default = "~/aws/aws_keys/default-key.pem"
 }
+
 # Define the EC2 instance resource
 resource "aws_instance" "web_server" {
-  ami                    = "ami-0a70b9d193ae8a799"                 # Replace with the desired AMI ID
-  instance_type          = "t2.micro"                              # Replace with the desired instance type
-  key_name               = "default-key"                           # Replace with the desired key name
-  vpc_security_group_ids = [aws_security_group.http_server_sg.id]  # Replace with your security group ID
-  availability_zone      = "us-west-2a"                            # Replace with the desired availability zone
-  subnet_id              = data.aws_subnets.default_subnets.ids[1] # Replace with the desired subnet ID
-  # subnet_id              = "subnet-05243d3cdff2301be"             # Replace with the desired subnet ID
+  ami                    = "ami-0a70b9d193ae8a799"
+  instance_type          = "t2.micro"
+  key_name               = "default-key"
+  vpc_security_group_ids = [aws_security_group.http_server_sg.id]
+  availability_zone      = "us-west-2a"
+  subnet_id              = data.aws_subnets.default_subnets.ids[1]
 
   connection {
     type        = "ssh"
