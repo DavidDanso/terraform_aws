@@ -5,7 +5,6 @@ data "aws_subnets" "default_subnets" {
   }
 }
 
-
 # AMI for the EC2 instance
 data "aws_ami" "amazon_linux_ami" {
   most_recent = true
