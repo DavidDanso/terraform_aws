@@ -63,7 +63,7 @@ resource "aws_instance" "web_server" {
   key_name               = "default-key"
   vpc_security_group_ids = [aws_security_group.http_server_sg.id]
   availability_zone      = "us-west-2a"
-  subnet_id              = data.aws_subnets.default_subnets.ids[1]
+  subnet_id              = data.aws_subnets.default_subnets.ids[1]                               
 
   connection {
     type        = "ssh"
@@ -82,3 +82,4 @@ resource "aws_instance" "web_server" {
     ]
   }
 }
+
